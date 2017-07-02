@@ -1,12 +1,8 @@
-DOCKER_REPO = matheuspiment/amp
+ NAME = matheuspiment/amp
+ 
+ default: docker_build
 
-.PHONY: all build prune
-
-all: build run
-
-build:
-	docker build -t ${DOCKER_REPO}:testing .
-
-prune:
-	docker rm `docker ps -q -a --filter status=exited`
-	docker rmi `docker images -q --filter "dangling=true"`
+    docker_build:
+      @docker build \
+        --build-arg VCS_REF=`git rev-parse --short HEAD` \
+        --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` .
