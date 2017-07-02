@@ -1,0 +1,24 @@
+php:
+  build: .
+  ports:
+   - "80:80"
+   - "443:443"
+  volumes:
+   - ./www:/var/www/html
+  links:
+   - db
+db:
+  image: mysql:5.7
+  volumes:
+   - /var/lib/mysql
+  environment:
+   - MYSQL_ROOT_PASSWORD=phprs
+   - MYSQL_DATABASE=phprs
+phpmyadmin:
+  image: phpmyadmin/phpmyadmin
+  ports:
+   - "8080:80"
+  volumes:
+   - /sessions
+  links:
+   - db
